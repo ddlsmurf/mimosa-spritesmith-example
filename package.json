@@ -1,0 +1,21 @@
+{
+  "name": "mimosa-spritesmith-example",
+  "version": "0.0.0",
+  "description": "Example of mimosa-spritesmith to generate retina friendly sprite sheets",
+  "dependencies": {
+    "mimosa": "~1.0.12",
+    "mimosa-spritesmith": "~0.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ddlsmurf/mimosa-spritesmith-example"
+  },
+  "keywords": [
+    "mimosa",
+    "example",
+    "spritesmith",
+    "stylus"
+  ],
+  "author": "Eric Doughty-Papassideris",
+  "license": "MIT"
+}
