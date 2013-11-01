@@ -60,3 +60,13 @@ spritesmith: $(SPRITE_IMAGES) $(SPRITE_CSS)
 spritesmith-clean:
 	@echo "[x] Deleting sprites..."
 	@-rm -- $(SPRITE_IMAGES) $(SPRITE_CSS) $(SPRITE_PUBLIC_IMAGES)
+
+PUBLIC_FILES = index.html stylesheets/style.css
+publish-github-pages: build
+	git stash
+	git checkout gh-pages
+	cp -vR public/* .
+	git add $(PUBLIC_FILES) $(SPRITE_CSS)
+	git commit
+	git checkout master
+	git stash pop
