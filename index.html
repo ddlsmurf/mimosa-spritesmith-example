@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mimosa Spritesmith</title>
+
+    <link rel="stylesheet" href="./stylesheets/style.css" />
+  </head>
+  <body>
+    <table border=0>
+      <tr><th>Name</th><th>Icon</th><th>Size</th></tr>
+      <script type="text/javascript">
+        (function generate_rows_for_icons(names){
+          names = names.split(" ");
+          for (var i = 0; i < names.length; i++) {
+            var name = names[i];
+            document.write([
+              "<tr><td>",
+                name,
+              "</td><td>",
+                "<div class='", name, "'></div>",
+              "</td><td>",
+                "<div class='", name, "-size demo-border'></div>",
+              "</td></tr>",
+            ].join(""));
+          }
+        })("icon_bookmark_off icon_bookmark_on icon_citation icon_arrow_down");
+      </script>
+    </table>
+
+    <h2>CSS/JS detection:</h2>
+    <div class="on-retina">CSS Media detected retina browser</div>
+    <div class="not-on-retina">CSS Media detected non-retina browser</div>
+    <pre><code>
+      window.devicePixelRatio = <span id="js_pixel_ratio"></span>
+    </code></pre>
+    <script type="text/javascript">
+      window.setInterval(function() {
+        var el = window.document.getElementById("js_pixel_ratio");
+        while(el.hasChildNodes()) el.removeChild(el.lastChild);
+        el.appendChild(document.createTextNode(
+          window.devicePixelRatio || "none - so assuming 1"
+        ));
+      }, 1000);
+    </script>
+
+    <h2>Sprite sheets:</h2>
+    <img class="demo-border" src="./images/index.png" alt="non retina sprite sheet">
+    <img class="demo-border" src="./images/index@2x.png" alt="retina sprite sheet">
+  </body>
+</html>
