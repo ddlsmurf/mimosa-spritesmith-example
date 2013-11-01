@@ -2,15 +2,15 @@
 @import 'index'
 @import 'index@2x'
 
-sprite-size(name, sprite = $index)
-  width sprite[name][2]
-  height sprite[name][3]
-sprite-offset(name, sprite = $index)
-  background-position sprite[name][0] sprite[name][1]
-sprite-background(sprite, sizeContainer = null)
+sprite-size(name, sprite, ratio = 1)
+  width (sprite[name][2] / ratio)
+  height (sprite[name][3] / ratio)
+sprite-offset(name, sprite, ratio = 1)
+  background-position (sprite[name][0] / ratio) (sprite[name][1] / ratio)
+sprite-background(sprite, ratio = 1)
   background-image url(sprite['image'])
-  if sizeContainer
-    background-size sizeContainer['width'] sizeContainer['height']
+  if ratio != 1
+    background-size (sprite['width'] / ratio) (sprite['height'] / ratio)
 
 retina_media_query = "(-webkit-min-device-pixel-ratio: 1.5),
   (min--moz-device-pixel-ratio: 1.5),
@@ -19,25 +19,29 @@ retina_media_query = "(-webkit-min-device-pixel-ratio: 1.5),
 
 spritesheet-rules(
   sprite,
-  prefix = "",
-  applySize = null,
+  prefix = "sprite-",
+  ratio = 1,
   withIconSizeRulesSuffix = "-size"
   )
   .{prefix}{join(", ." + prefix, sprite.names)}
-    sprite-background(sprite, applySize)
+    sprite-background(sprite, ratio)
   for spriteName in $index.names
     if withIconSizeRulesSuffix
       .{prefix}{spriteName},
       .{prefix}{spriteName}{withIconSizeRulesSuffix}
-        sprite-size(spriteName, sprite)
-    unless applySize
+        sprite-size(spriteName, sprite, ratio)
       .{prefix}{spriteName}
-        sprite-offset(spriteName, applySize || sprite)
+        sprite-offset(spriteName, sprite, ratio)
+    else
+      .{prefix}{spriteName}
+        sprite-size(spriteName, sprite, ratio)
+        sprite-offset(spriteName, sprite, ratio)
+
 
 retina-spritesheet-rules(sprite, sprite2x, prefix = "")
-  spritesheet-rules(sprite, prefix, null)
+  spritesheet-rules(sprite, prefix)
   @media retina_media_query
-    spritesheet-rules(sprite2x, prefix, sprite, false)
+    spritesheet-rules(sprite2x, prefix, 2)
 
 retina-spritesheet-rules($index, $index_2x)
 
