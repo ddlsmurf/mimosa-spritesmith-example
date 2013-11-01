@@ -40,6 +40,38 @@
     -moz-background-size: 44px 38px;
     background-size: 44px 38px;
   }
+  .icon_bookmark_off,
+  .icon_bookmark_off-size {
+    width: 14px;
+    height: 25px;
+  }
+  .icon_bookmark_off {
+    background-position: 0px 0px;
+  }
+  .icon_bookmark_on,
+  .icon_bookmark_on-size {
+    width: 14px;
+    height: 25px;
+  }
+  .icon_bookmark_on {
+    background-position: -14px 0px;
+  }
+  .icon_citation,
+  .icon_citation-size {
+    width: 16px;
+    height: 16px;
+  }
+  .icon_citation {
+    background-position: -28px 0px;
+  }
+  .icon_arrow_down,
+  .icon_arrow_down-size {
+    width: 13px;
+    height: 13px;
+  }
+  .icon_arrow_down {
+    background-position: 0px -25px;
+  }
 }
 .demo-border {
   border: 1px dashed #00f;
