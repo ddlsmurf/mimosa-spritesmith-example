@@ -17,33 +17,44 @@ retina_media_query = "(-webkit-min-device-pixel-ratio: 1.5),
   (-o-min-device-pixel-ratio: 3/2),
   (min-device-pixel-ratio: 3/2)"
 
+substract-items(names, excluded)
+  result = {}
+  for name in names
+    unless name in excluded
+      result[name] = true
+  keys(result)
+
 spritesheet-rules(
   sprite,
   prefix = "sprite-",
   ratio = 1,
-  withIconSizeRulesSuffix = "-size"
+  withIconSizeRulesSuffix = "-size",
+  excluded = (),
+  skipSize = false
   )
-  .{prefix}{join(", ." + prefix, sprite.names)}
-    sprite-background(sprite, ratio)
-  for spriteName in sprite.names
-    if withIconSizeRulesSuffix
-      .{prefix}{spriteName},
-      .{prefix}{spriteName}{withIconSizeRulesSuffix}
-        sprite-size(spriteName, sprite, ratio)
-      .{prefix}{spriteName}
-        sprite-offset(spriteName, sprite, ratio)
-    else
-      .{prefix}{spriteName}
-        sprite-size(spriteName, sprite, ratio)
-        sprite-offset(spriteName, sprite, ratio)
+  names = substract-items(sprite['names'], excluded)
+  unless length(names) == 0
+    .{prefix}{join(", ." + prefix, names)}
+      sprite-background(sprite, ratio)
+    for spriteName in names
+      if withIconSizeRulesSuffix
+        .{prefix}{spriteName},
+        .{prefix}{spriteName}{withIconSizeRulesSuffix}
+          sprite-size(spriteName, sprite, ratio)
+        .{prefix}{spriteName}
+          sprite-offset(spriteName, sprite, ratio)
+      else
+        .{prefix}{spriteName}
+          sprite-size(spriteName, sprite, ratio) unless skipSize
+          sprite-offset(spriteName, sprite, ratio)
 
-
-retina-spritesheet-rules(sprite, sprite2x, prefix = "")
-  spritesheet-rules(sprite, prefix)
+retina-spritesheet-rules(sprite, sprite2x, prefix = "sprite-", withIconSizeRulesSuffix = "-size")
+  spritesheet-rules(sprite, prefix, 1, withIconSizeRulesSuffix)
   @media retina_media_query
-    spritesheet-rules(sprite2x, prefix, 2)
+    spritesheet-rules(sprite2x, prefix, 2, null, null, true)
+  spritesheet-rules(sprite2x, prefix, 2, withIconSizeRulesSuffix, sprite.names)
 
-retina-spritesheet-rules($index, $index_2x)
+retina-spritesheet-rules($index, $index_2x, "")
 
 .demo-border
   border 1px dashed blue
