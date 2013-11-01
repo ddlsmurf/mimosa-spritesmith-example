@@ -25,7 +25,7 @@ spritesheet-rules(
   )
   .{prefix}{join(", ." + prefix, sprite.names)}
     sprite-background(sprite, ratio)
-  for spriteName in $index.names
+  for spriteName in sprite.names
     if withIconSizeRulesSuffix
       .{prefix}{spriteName},
       .{prefix}{spriteName}{withIconSizeRulesSuffix}
